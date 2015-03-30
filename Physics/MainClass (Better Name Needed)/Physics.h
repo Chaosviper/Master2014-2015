@@ -19,7 +19,7 @@ public:
 	~Physics();
 	void ComputePhysic();
 	void AddRigidBody(RigidBody& RigidBody, int ID);
-	void ApplyForce(int ID, const Vector3& force);
+	void ApplyForce(int ID, const Vector3& force,const Vector3& pointOfApplication);
 	void DeleteRigidBody(int ID);
 	void AddCollider(Collider* Col);
 	static const float DeltaTime;

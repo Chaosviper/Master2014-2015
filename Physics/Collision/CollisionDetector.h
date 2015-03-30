@@ -1,27 +1,17 @@
 #pragma once
-#include "Collision.h"
-#include "Collider.h"
+class Collider;
+#include <iostream> //DEBUG ONLY
+#include "Vector3.h"
 #include "BoxCollider.h"
 #include "SphereCollider.h"
-#include <iostream> //DEBUG ONLY
+#include "Collision.h"
 
 class CollisionDetector
 {
 public:
-	static Collision* CubeCubeCollision(Collider& first,Collider& second)
-	{
-		return DetectCollision(static_cast<BoxCollider*>(&first), static_cast<BoxCollider*>(&second));
-	}
-
-	static Collision* CubeSphereCollision(Collider& first, Collider& second)
-	{
-		return DetectCollision(static_cast<BoxCollider*>(&first), static_cast<SphereCollider*>(&second));
-	}
-
-	static Collision* SphereSphereCollision(Collider& first, Collider& second)
-	{
-		return DetectCollision(static_cast<SphereCollider*>(&first), static_cast<SphereCollider*>(&second));
-	}
+	static Collision* CubeCubeCollision(Collider& first, Collider& second);
+	static Collision* CubeSphereCollision(Collider& first, Collider& second);
+	static Collision* SphereSphereCollision(Collider& first, Collider& second);
 
 private:
 	template<typename T, typename U>

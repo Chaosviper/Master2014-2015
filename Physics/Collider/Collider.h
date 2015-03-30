@@ -12,10 +12,7 @@ namespace ColliderMapping{
 class Collider abstract
 {
 public:
-	int GetType() const
-	{
-		return _Type;
-	};
+	int GetType() const;
 	Vector3 GetPosition() const;
 	RigidBody& GetRigidBody() const;
 protected:

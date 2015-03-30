@@ -49,7 +49,7 @@ void Physics::AddRigidBody(RigidBody& Body, int ID)
 	_RigidBodyList.push_back(&Body);
 }
 
-void Physics::ApplyForce(int ID, const Vector3& force)
+void Physics::ApplyForce(int ID, const Vector3& force, const Vector3& pointOfApplication)
 {
 	bool found = false;
 	unsigned int index = 0;
@@ -59,7 +59,7 @@ void Physics::ApplyForce(int ID, const Vector3& force)
 	}
 	if (found)
 	{
-		_RigidBodyList[index]->ApplyForce(force);
+		_RigidBodyList[index]->ApplyForce(force, pointOfApplication);
 	}
 }
 

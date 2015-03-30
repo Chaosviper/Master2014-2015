@@ -6,10 +6,12 @@ class RigidBody;
 class Collision
 {
 public:
-	Collision( RigidBody& first, RigidBody& second,const Vector3& force);
+	Collision(RigidBody& first, RigidBody& second, const Vector3& force);
 	void ApplyCollision();
 private:
 	RigidBody& _firstObj;
 	RigidBody& _secondObj;
+	Vector3 _pointOfApplication;
 	Vector3 _force;
+	Vector3 _normal;
 };

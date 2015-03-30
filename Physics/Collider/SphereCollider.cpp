@@ -10,3 +10,8 @@ float SphereCollider::GetRadius() const
 {
 	return _Radius;
 }
+
+const int SphereCollider::getType()
+{
+	return SphereCollider::_SphereColliderType;
+};

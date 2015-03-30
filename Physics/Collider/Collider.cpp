@@ -14,3 +14,7 @@ Vector3 Collider::GetPosition() const
 	return _RigidBody.GetPosition() + _Displacement;
 }
 
+int Collider::GetType() const
+{
+	return _Type;
+};
