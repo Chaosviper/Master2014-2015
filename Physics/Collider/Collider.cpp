@@ -9,7 +9,7 @@ RigidBody& Collider::GetRigidBody() const
 	return _RigidBody;
 }
 
-Vector3 Collider::GetPosition() const
+Vector3 Collider::GetWorldPosition() const
 {
 	return _RigidBody.GetPosition() + _Displacement;
 }

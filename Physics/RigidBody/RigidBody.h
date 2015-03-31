@@ -1,5 +1,7 @@
 #pragma once
 #include "Vector3.h"
+#include "Quaternion.h"
+#include "Matrix.h"
 
 class RigidBody
 {
@@ -7,7 +9,7 @@ public:
 	RigidBody(const Vector3& Position, int ID, float Mass);
 	RigidBody(const RigidBody& other);
 	~RigidBody();
-	void DoPhysic();
+	void DoPhysic(float);
 	void ApplyForce(const Vector3& force, const Vector3& pointOfApplication);
 	int GetID() const;
 	float GetMass() const;
@@ -27,9 +29,8 @@ private:
 	Vector3 _AngularMomentum;
 	Vector3 _ForceSum;
 	Vector3 _MomentumSum;
-		//TO DO
-	//Quaternion _Rotation;
-	//Matrix<3,3> _RotationMatrix;
+	Quaternion _Rotation;
+	Matrix<3,3> _RotationMatrix;
 	int _ID;
 };
 

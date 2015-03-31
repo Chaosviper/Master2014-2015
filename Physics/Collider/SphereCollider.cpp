@@ -1,5 +1,7 @@
 #include "SphereCollider.h"
-const int SphereCollider::_SphereColliderType= ColliderMapping::SPHERE;
+#include "ColliderUtil.h"
+
+const int SphereCollider::_SphereColliderType = ColliderType::TypeIndex::SPHERE;
 
 SphereCollider::SphereCollider(RigidBody& body,const Vector3& displ, float radius)
 	:Collider(_SphereColliderType, body, displ), _Radius(radius)

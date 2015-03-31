@@ -21,48 +21,32 @@ RigidBody::~RigidBody()
 {
 }
 
-void RigidBody::DoPhysic()
+void RigidBody::DoPhysic(float DeltaTime)
 {
-	//SILLY THING
-	Vector3 Force(Physics::Gravity*GetMass());
-	Vector3 Acceleration(Force / GetMass());
-	Acceleration *= Physics::DeltaTime;
-	SetVelocity(GetVelocity() + Acceleration);
-	SetPosition(GetPosition() + Acceleration);
+	Vector3 tmp(_ForceSum*DeltaTime);
+	_QuantityOfMotion=_QuantityOfMotion+tmp;
+	tmp = _MomentumSum*DeltaTime;
+	_AngularMomentum += tmp;
+	_Velocity=_QuantityOfMotion / _Mass;
+	tmp = _Velocity*DeltaTime;
+	_Position += tmp;
+	float r[3];
+	MatrixOp::RotateRelative(_RotationMatrix, _AngularMomentum.GetData(), r);
+	_AngularVelocity.SetX(r[0] / _Inertia.getX());
+	_AngularVelocity.SetY(r[1] / _Inertia.getY());
+	_AngularVelocity.SetZ(r[2] / _Inertia.getZ());
 
-	/* TO DO*/
-/*	float v[3];
-	float q[4];
+	Quaternion Rot(1, _AngularVelocity.getX()*DeltaTime / 2, _AngularVelocity.getY()*DeltaTime / 2, _AngularVelocity.getZ()*DeltaTime / 2);
 
-	MoltiplicaVettoreScalare(Fris, dt, v);
-	SommaVettori(v, Qmoto, Qmoto);
-	MoltiplicaVettoreScalare(Mris, dt, v);
-	SommaVettori(v, Mang, Mang);
+	Normalize(Rot);
+	_Rotation = _Rotation*Rot;
+	Normalize(_Rotation);
 
-	DividiVettoreScalare(Qmoto, Massa, Vel);
-	MoltiplicaVettoreScalare(Vel, dt, v);
-	SommaVettori(v, Pos, Pos);
-
-	RuotaRelative(MRot, Mang, Vang); // Per risolvere problemi di inerzia, raddrizzo il mio
-	// oggetto, altrimenti l'inerzia cambierebbe in base a come è disposto l'oggetto
-
-	Vang[0] /= Inerzia[0];
-	Vang[1] /= Inerzia[1];
-	Vang[2] /= Inerzia[2];
-
-	q[0] = 1;
-	q[1] = Vang[0] * dt / 2;
-	q[2] = Vang[1] * dt / 2;
-	q[3] = Vang[2] * dt / 2;
-
-	NormalizzaQuaternione(q, q);
-	MoltiplicaQuaternioni(Rot, q, Rot);
-	NormalizzaQuaternione(Rot, Rot);
-
-	RuotaAssolute(MRot, Vang, Vang); // Torno in assoluto per poi tornare in relativo
-	MatriceDaQuaternione(Rot, MRot);
-
-	*/
+	MatrixOp::RotateAbsolute(_RotationMatrix, _AngularVelocity.GetData(), r);
+	_AngularVelocity.SetX(r[0]);
+	_AngularVelocity.SetY(r[1]);
+	_AngularVelocity.SetZ(r[2]);
+	_RotationMatrix=_Rotation.ToMatrix();
 }
 
 float RigidBody::GetMass() const
@@ -74,7 +58,8 @@ void RigidBody::ApplyForce(const Vector3& force,const Vector3& pointOfApplicatio
 {
 	SumForceToTotalForce(force);
 	Vector3 ForceOnPoint(pointOfApplication - GetPosition());
-	SumMomentumToTotalMomentum(ForceOnPoint * force);
+	VectorialProduct(ForceOnPoint,force,ForceOnPoint);
+	SumMomentumToTotalMomentum(ForceOnPoint);
 }
 
 Vector3 RigidBody::GetVelocity() const

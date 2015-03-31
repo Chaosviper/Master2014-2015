@@ -1,5 +1,6 @@
 #pragma once
 class Collider;
+//OLD CLASS NO ONE USE IT
 #include <iostream> //DEBUG ONLY
 #include "Vector3.h"
 #include "BoxCollider.h"
@@ -14,8 +15,8 @@ public:
 	static Collision* SphereSphereCollision(Collider& first, Collider& second);
 
 private:
-	template<typename T, typename U>
-	static void DetectCollision(T, U);
+	//template<typename T, typename U>
+	//static void DetectCollision(T, U);
 	static Collision* DetectCollision(BoxCollider* first, BoxCollider* second)
 	{
 		//DO SHIT
@@ -30,7 +31,7 @@ private:
 	};
 	static Collision* DetectCollision(SphereCollider* first, SphereCollider* second)
 	{
-		float distance = Vector3::DistanceBetween(first->GetPosition(), second->GetPosition());
+		float distance = Vector3::DistanceBetween(first->GetWorldPosition(), second->GetWorldPosition());
 		float radiusSum = first->GetRadius() + second->GetRadius();
 		float compenetrarion = distance-radiusSum;
 		if (compenetrarion < 0)

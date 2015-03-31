@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "CollisionHandler.h"
-#include "CollisionDetector.h"
+//#include "CollisionDetector.h"
 #include "Dispatcher.h"
 #include "RigidBody.h"
 #include "ColliderUtil.h"
@@ -12,6 +12,7 @@ typedef std::vector<RigidBody*> RigidBodyList;
 typedef std::vector<Collider*> ColliderList;
 typedef Dispatcher<Collider, CollidersType, Collision*> ColliderDispatcher;
 typedef std::vector<int> RigidBodyID;
+
 class Physics
 {
 public:
