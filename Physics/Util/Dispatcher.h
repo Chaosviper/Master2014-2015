@@ -31,12 +31,12 @@ public:
 		//_callbacks[leftIndex*Size::value + rightIndex] = funcPtr;
 	}
 
-	ReturnType Dispatch(Type& firstArg, Type& secondArg)
+	ReturnType Dispatch( Type& firstArg, Type& secondArg)
 	{
 		//Symmetry check need for upper triangular matrix
 		//if (firstArg.GetType() > secondArg.GetType())
 		//{
-			return _callbacks[firstArg.GetType() + secondArg.GetType()](firstArg, secondArg);
+		return _callbacks[firstArg.GetType()*Size::value + secondArg.GetType()](firstArg, secondArg);
 		//}
 		//else
 		//{

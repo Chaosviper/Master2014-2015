@@ -1,10 +1,12 @@
 #pragma once
 #include "Collider.h"
 
+class RigidBody;
+
 class SphereCollider : public Collider
 {
 public:
-	SphereCollider(RigidBody& body,const Vector3& displ, float radius);
+	SphereCollider(const Vector3& pos, const Vector3& displ, float radius);
 	float GetRadius() const;
 	static const int getType();
 private:

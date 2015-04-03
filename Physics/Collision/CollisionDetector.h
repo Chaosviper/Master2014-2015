@@ -1,4 +1,4 @@
-#pragma once
+#pragma once/*
 class Collider;
 //OLD CLASS NO ONE USE IT
 #include <iostream> //DEBUG ONLY
@@ -35,9 +35,12 @@ private:
 		float radiusSum = first->GetRadius() + second->GetRadius();
 		float compenetrarion = distance-radiusSum;
 		if (compenetrarion < 0)
+		{
 			//COMPUTE FORCE TO DO
-			return new Collision(first->GetRigidBody(),second->GetRigidBody(),Vector3(0,0,0));
-		else
-			return nullptr;
+			//return new Collision(first->GetRigidBody(),second->GetRigidBody(),Vector3(0,0,0));
+
+		}
+		return nullptr;
 	};
 };
+*/

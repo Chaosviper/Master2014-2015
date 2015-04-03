@@ -1,10 +1,10 @@
 #pragma once
 #include <vector>
 #include "CollisionHandler.h"
-//#include "CollisionDetector.h"
 #include "Dispatcher.h"
-#include "RigidBody.h"
 #include "ColliderUtil.h"
+
+class RigidBody;
 
 typedef ColliderType::ColliderTypeList CollidersType;
 typedef CollisionHandler<20> PhysicCollisionHandler;

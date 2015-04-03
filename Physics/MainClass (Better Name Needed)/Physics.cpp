@@ -1,17 +1,11 @@
 #include "Physics.h"
 #include "CollisionAlgorithms.h"
-
+#include "RigidBody.h"
 const float Physics::DeltaTime = 0.025f;
-const Vector3 Physics::Gravity = Vector3(0, 9.8f, 0);
+const Vector3 Physics::Gravity = Vector3(0, -1.8f, 0);
 
 Physics::Physics()
 {
-	//OLD
-	/*
-	_Dispatcher.Add<BoxCollider, BoxCollider>(CollisionDetector::CubeCubeCollision);
-	_Dispatcher.Add<BoxCollider, SphereCollider>(CollisionDetector::CubeSphereCollision);
-	_Dispatcher.Add<SphereCollider, SphereCollider>(CollisionDetector::SphereSphereCollision);
-	*/
 	_Dispatcher.Add<BoxCollider, BoxCollider>(CollisionAlgorithm::CollisionDetectionAlgorithm<BoxCollider, BoxCollider>::Fire);
 	_Dispatcher.Add<BoxCollider, SphereCollider>(CollisionAlgorithm::CollisionDetectionAlgorithm<BoxCollider, SphereCollider>::Fire<BoxCollider, SphereCollider>);
 	_Dispatcher.Add<SphereCollider, BoxCollider>(CollisionAlgorithm::CollisionDetectionAlgorithm<BoxCollider, SphereCollider>::Fire<SphereCollider, BoxCollider>);
@@ -39,16 +33,17 @@ void Physics::ComputePhysic()
 	for (unsigned int index = 0; index < _RigidBodyList.size(); ++index)
 	{
 		_RigidBodyList[index]->DoPhysic(Physics::DeltaTime);
+		_RigidBodyList[index]->PrintStatus();
 	}
 	bool MaxCollisionReached = false;
-	for (unsigned int index = 0; index < _ColliderList.size() && !MaxCollisionReached; ++index)
+	for (unsigned int index = 0; index < _RigidBodyList.size() && !MaxCollisionReached; ++index)
 	{
-		for (unsigned int index2 = index + 1; index2 < _ColliderList.size() && !MaxCollisionReached; ++index2)
+		for (unsigned int index2 = index + 1; index2 < _RigidBodyList.size() && !MaxCollisionReached; ++index2)
 		{
-			MaxCollisionReached=_CollisionHandler.AddCollision(_Dispatcher.Dispatch( *(_ColliderList[index]), *(_ColliderList[index2]) ));
+			MaxCollisionReached = _CollisionHandler.AddCollision(_Dispatcher.Dispatch(*(_RigidBodyList[index]->GetCollider()), *(_RigidBodyList[index2]->GetCollider())), _RigidBodyList[index], _RigidBodyList[index2]);
 		}
 	}
-	
+	_CollisionHandler.HandleCollision();
 }
 
 void Physics::AddRigidBody(RigidBody& Body, int ID)

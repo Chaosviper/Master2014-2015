@@ -1,8 +1,7 @@
 #pragma once
 #include <math.h>
-//Debug Only
+#include "Vector3.h"
 #include <iostream>
-
 template<int Row,int Col>
 class Matrix
 {
@@ -51,10 +50,12 @@ public:
 		}
 		return result;
 	};
+
 	Matrix(const Matrix<Row, Col>& other)
 	{
 		for (int i = 0; i < Row*Col; ++i)
 		{
+			
 			_matrix[i] = other.GetElementAt(i);
 		}
 	}
@@ -67,9 +68,19 @@ public:
 		}
 		return *this;
 	}
+	Matrix<Col, Row>& Transpose()
+	{
+		Matrix<Col, Row> result;
+		for (int i = 0; i < Row; ++i)
+		{
+			for (int j = 0; j < Col; ++j)
+			{
+				result.SetElementAt(j,i,GetElementAt(i, j));
+			}
+		}
+		return result
+	}
 private:
-
-	
 	const float* GetRow(int i) const
 	{
 		return  &_matrix[i*Col];
@@ -81,53 +92,33 @@ private:
 
 	float _matrix[Row*Col];
 };
+
 namespace MatrixOp{
-template<int Row, int Col, int secondMatrixCol>
-void MultiplyMatrix(const Matrix<Row, Col>& first,const Matrix<Col, secondMatrixCol>& second, Matrix<Row, secondMatrixCol>& result)
-{
-	float rowR[secondMatrixCol];
-	for (int i = 0; i < Row; ++i)
+	template<int Row, int Col, int secondMatrixCol>
+	void MultiplyMatrix(const Matrix<Row, Col>& first, const Matrix<Col, secondMatrixCol>& second, Matrix<Row, secondMatrixCol>& result)
 	{
-		for (int j = 0; j < secondMatrixCol; ++j)
+		float rowR[secondMatrixCol];
+		for (int i = 0; i < Row; ++i)
 		{
-			rowR[j] = first.MultiplyRowCol(i, j, second);
-			//result.SetElementAt(i, j, first.MultiplyRowCol(i, j, second));
-		}
-		result.SetRow(i, rowR);
-	}
-}
-template<int Row,int Col>
-void RotateAbsolute(Matrix<Row, Col>& Matrix, const float* vector, float * result)
-{
-	//Cattani
-	//o3[0] = Matrice3x3[0] * X + Matrice3x3[3] * Y + Matrice3x3[6] * Z;
-	//o3[1] = Matrice3x3[1] * X + Matrice3x3[4] * Y + Matrice3x3[7] * Z;
-	//o3[2] = Matrice3x3[2] * X + Matrice3x3[5] * Y + Matrice3x3[8] * Z;
-	for (int i = 0; i < Col; ++i)
-	{
-		result[i] = 0;
-		for (int j = 0; j < Row; ++j)
-		{
-			result[i] += Matrix.GetElementAt(j, i) * vector[j];
+			for (int j = 0; j < secondMatrixCol; ++j)
+			{
+				rowR[j] = first.MultiplyRowCol(i, j, second);
+			}
+			result.SetRow(i, rowR);
 		}
 	}
-}
 template<int Row, int Col>
-void RotateRelative(Matrix<Row, Col>& Matrix, const float* vector, float * result)
+void Rotate(const Matrix<Row, Col>& Matrix, const float* vector, float * result);
+
+enum RotateTo
 {
-	//Cattani
-	//	o3[0] = Matrice3x3[0] * X + Matrice3x3[1] * Y + Matrice3x3[2] * Z;
-	//	o3[1] = Matrice3x3[3] * X + Matrice3x3[4] * Y + Matrice3x3[5] * Z;
-	//	o3[2] = Matrice3x3[6] * X + Matrice3x3[7] * Y + Matrice3x3[8] * Z;
-
-	for (int i = 0; i < Row; ++i)
-	{
-		result[i] = 0;
-		for (int j = 0; j < Col; ++j)
-		{
-			result[i] += Matrix.GetElementAt(i, j) * vector[j];
-		}
-	}
-
-}
+	ToWorldSpace = false,
+	ToObjSpace = true
+};
+template<RotateTo To>
+void Rotate(const Matrix<3, 3>& Matrix, const Vector3& vector, Vector3& result);
+template<>
+void Rotate<ToWorldSpace>(const Matrix<3, 3>& Matrix, const Vector3& vector, Vector3& result);
+template<>
+void Rotate<ToObjSpace>(const Matrix<3, 3>& Matrix, const Vector3& vector, Vector3& result);
 }

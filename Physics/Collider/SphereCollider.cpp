@@ -3,9 +3,10 @@
 
 const int SphereCollider::_SphereColliderType = ColliderType::TypeIndex::SPHERE;
 
-SphereCollider::SphereCollider(RigidBody& body,const Vector3& displ, float radius)
-	:Collider(_SphereColliderType, body, displ), _Radius(radius)
+SphereCollider::SphereCollider(const Vector3& pos, const Vector3& displ, float radius)
+	:Collider(_SphereColliderType, displ), _Radius(radius)
 		{
+		SetPosition(pos);
 		};
 
 float SphereCollider::GetRadius() const

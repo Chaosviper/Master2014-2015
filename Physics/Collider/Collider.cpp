@@ -1,20 +1,19 @@
 #include "Collider.h"
-
-Collider::Collider(int type,RigidBody& body,const Vector3& displ) : _Type(type), _RigidBody(body), _Displacement(displ)
+#include <iostream>
+Collider::Collider(int type,const Vector3& displ) : _Type(type), _Displacement(displ)
 {
 };
 
-RigidBody& Collider::GetRigidBody() const
+const Vector3 Collider::GetWorldPosition() const
 {
-	return _RigidBody;
-}
-
-Vector3 Collider::GetWorldPosition() const
-{
-	return _RigidBody.GetPosition() + _Displacement;
+	return *(_Position)+_Displacement;
 }
 
 int Collider::GetType() const
 {
 	return _Type;
 };
+void Collider::SetPosition(const Vector3& Pos)
+{
+	_Position = &Pos;
+}

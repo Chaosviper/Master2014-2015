@@ -1,8 +1,9 @@
 #include "Quaternion.h"
 #include <math.h>
+
 Quaternion::Quaternion()
 {
-	_values[0] = 0;
+	_values[0] = 1;
 	_values[1] = 0;
 	_values[2] = 0;
 	_values[3] = 0;
@@ -103,11 +104,11 @@ float Quaternion::Modulus() const
 	return(sqrt((GetValue(0) * GetValue(0)) + (GetValue(1) * GetValue(1)) + (GetValue(2) * GetValue(2)) + (GetValue(3) * GetValue(3))));
 };
 
-void Normalize(Quaternion& quaternion)
+void Quaternion::Normalize()
 {
-	float a = quaternion.Modulus();
+	float a = Modulus();
 	if (a > 0.000001f) {
-		quaternion /= a;
+		*this /= a;
 	}
 };
 
