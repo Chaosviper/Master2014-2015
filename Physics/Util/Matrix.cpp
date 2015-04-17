@@ -21,7 +21,7 @@ template<RotateTo To>
 void Rotate(const Matrix<3, 3>& Matrix, const Vector3& vector, Vector3& result);
 
 template<>
-void Rotate<ToObjSpace>(const Matrix<3, 3>& Matrix, const Vector3& vector, Vector3& result)
+void Rotate<ToWorldSpace>(const Matrix<3, 3>& Matrix, const Vector3& vector, Vector3& result)
 {
 	float x = Matrix.GetElementAt(0) * vector.getX() + Matrix.GetElementAt(1) * vector.getY() + Matrix.GetElementAt(2) * vector.getZ();
 	float y = Matrix.GetElementAt(3) * vector.getX() + Matrix.GetElementAt(4) * vector.getY() + Matrix.GetElementAt(5) * vector.getZ();
@@ -32,7 +32,7 @@ void Rotate<ToObjSpace>(const Matrix<3, 3>& Matrix, const Vector3& vector, Vecto
 }
 
 template<>
-void Rotate<ToWorldSpace>(const Matrix<3, 3>& Matrix, const Vector3& vector, Vector3& result)
+void Rotate<ToObjSpace>(const Matrix<3, 3>& Matrix, const Vector3& vector, Vector3& result)
 {
 	float x = Matrix.GetElementAt(0) * vector.getX() + Matrix.GetElementAt(3) * vector.getY() + Matrix.GetElementAt(6) * vector.getZ();
 	float y = Matrix.GetElementAt(1) * vector.getX() + Matrix.GetElementAt(4) * vector.getY() + Matrix.GetElementAt(7) * vector.getZ();

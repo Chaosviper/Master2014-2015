@@ -126,13 +126,13 @@ Matrix<3, 3> Quaternion::ToMatrix() const
 	Matrix<3, 3> result;
 
 	result.SetElementAt(0, 1.0f - 2.0f * (Y2 + Z2));
-	result.SetElementAt(1, 2.0f * (XY + SZ));
-	result.SetElementAt(2, 2.0f * (XZ - SY));
-	result.SetElementAt(3, 2.0f * (XY - SZ));
+	result.SetElementAt(1, 2.0f * (XY - SZ));
+	result.SetElementAt(2, 2.0f * (XZ + SY));
+	result.SetElementAt(3, 2.0f * (XY + SZ));
 	result.SetElementAt(4, 1.0f - 2.0f * (Z2 + X2));
-	result.SetElementAt(5, 2.0f * (YZ + SX));
-	result.SetElementAt(6, 2.0f * (XZ + SY));
-	result.SetElementAt(7, 2.0f * (YZ - SX));
+	result.SetElementAt(5, 2.0f * (YZ - SX));
+	result.SetElementAt(6, 2.0f * (XZ - SY));
+	result.SetElementAt(7, 2.0f * (YZ + SX));
 	result.SetElementAt(8, 1.0f - 2.0f * (X2 + Y2));
 	return result;
 };
